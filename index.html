@@ -14,7 +14,34 @@
     />
   </head>
   <body>
-    <h2>Registro Civil</h2>
+
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#">
+        <img
+          src="assets/icono-urugya.jpg"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+        />
+        Registro Civil
+      </a>
+    </nav>
+
+    <div
+      class="alert alert-danger alert-dismissible show"
+      role="alert"
+      id="alertaError"
+    >
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
 
     <div class="jumbotron">
       <div class="row">
@@ -67,7 +94,7 @@
             </button>
           </form>
         </div>
-        <div class="col">
+        <div class="col" id="col-personas">
           <h3>Personas</h3>
           <table class="table" id="tabla-personas">
             <thead>
@@ -84,18 +111,42 @@
       </div>
     </div>
     <div class="jumbotron" id="jumbotron-metricas">
-      <h3>Metricas</h3>
+      <h3>Obtener Metricas</h3>
       <button id="btn-metricas-mayores" type="button" class="btn btn-primary">
         Mayores de Edad
       </button>
       <button id="btn-metricas-menores" type="button" class="btn btn-primary">
         Menores de Edad
       </button>
-      <button id="btn-metricas-mayor-a-menor" type="button" class="btn btn-primary">
+      <button
+        id="btn-metricas-mayor-a-menor"
+        type="button"
+        class="btn btn-primary"
+      >
         Ordenadas por Edad(mayor a menor)
       </button>
-      <button id="btn-metricas-menor-a-mayor" type="button" class="btn btn-primary">
+      <button
+        id="btn-metricas-menor-a-mayor"
+        type="button"
+        class="btn btn-primary"
+      >
         Ordenadas por Edad(menor a mayor)
+      </button>
+      <button
+        id="btn-metricas-alfabeticamente"
+        type="button"
+        class="btn btn-primary"
+      >
+        Ordenadas Alfabeticamente
+      </button>
+      <button id="btn-metricas-sexo-m" type="button" class="btn btn-primary">
+        Ordenadas por Sexo (M)
+      </button>
+      <button id="btn-metricas-sexo-f" type="button" class="btn btn-primary">
+        Ordenadas por Sexo (F)
+      </button>
+      <button id="btn-metricas-sexo-o" type="button" class="btn btn-primary">
+        Ordenadas por Sexo (O)
       </button>
     </div>
 

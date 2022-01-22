@@ -14,3 +14,12 @@ h4 {
   margin-left: 5px;
   margin-bottom: 5px;
 }
+
+#alertaError{
+  text-align: center;
+  display:none
+}
+
+button{
+  margin: 10px 10px;
+}

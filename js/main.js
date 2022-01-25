@@ -1,7 +1,5 @@
-
-
 class Persona {
-  constructor(nombre,apellido, edad, sexo) {
+  constructor(nombre, apellido, edad, sexo) {
     this.nombre = nombre;
     this.edad = edad;
     this.apellido = apellido;
@@ -23,10 +21,10 @@ class RegistroCivil {
   //Agrega una persona al registro civil si los datos ingresados son validos
   ingresarPersonas(e) {
     e.preventDefault();
-    const nombre = document.getElementById("input-nombre").value;
-    const edad = document.getElementById("input-edad").value;
-    const sexo = document.getElementById("select-sexo").value;
-    const apellido = document.getElementById("input-apellido").value;
+    const nombre = $("#input-nombre").val();
+    const edad = $("#input-edad").val();
+    const sexo = $("#select-sexo").val();
+    const apellido = $("#input-apellido").val();
 
     if (!nombreValido(nombre)) {
       crearAlerta(
@@ -41,7 +39,9 @@ class RegistroCivil {
       return false;
     }
     if (!sexoValido(sexo)) {
-      crearAlerta("Porfavor ingrese un sexo valido, Masculino, Femenino o Otro");
+      crearAlerta(
+        "Porfavor ingrese un sexo valido, Masculino, Femenino o Otro"
+      );
       return false;
     }
     if (!nombreValido(apellido)) {
@@ -51,14 +51,15 @@ class RegistroCivil {
       return false;
     }
 
-    this.personas.push(new Persona(nombre, apellido,parseInt(edad), sexo));
+    this.personas.push(new Persona(nombre, apellido, parseInt(edad), sexo));
     crearAlerta(
-      `Felicidades usted a registrado a la siguiente persona con exito:\n  Nombre: ${nombre}\n Apellido: ${apellido} \n  Edad: ${edad}\n  Sexo: ${sexo} `,true
+      `Felicidades usted a registrado a la siguiente persona con exito:\n  Nombre: ${nombre}\n Apellido: ${apellido} \n  Edad: ${edad}\n  Sexo: ${sexo} `,
+      true
     );
-    document.getElementById("input-nombre").value = "";
-    document.getElementById("input-edad").value = "";
-    document.getElementById("select-sexo").value = "Sexo";
-    document.getElementById("input-apellido").value = "";
+    $("#input-nombre").val("");
+    $("#input-edad").val("");
+    $("#select-sexo").val("Sexo");
+    $("#input-apellido").val("");
   }
 }
 
@@ -79,10 +80,9 @@ function sexoValido(sexo) {
 
 //Ingresa las personas en una tabla
 function mostrarPersonas(personas, mensajeAlerta) {
-  if (document.getElementById("tbody-personas")) {
-    document.getElementById("tbody-personas").remove();
+  if ($("#tbody-personas")) {
+    $("#tbody-personas").remove();
   }
-
   if (personas.length <= 0) {
     crearAlerta(mensajeAlerta);
     return false;
@@ -111,18 +111,15 @@ function mostrarPersonas(personas, mensajeAlerta) {
     tr.appendChild(tdSexo);
     tbody.appendChild(tr);
   });
-  document.getElementById("tabla-personas").appendChild(tbody);
+  $("#tabla-personas").append(tbody);
 
-  
-  if (document.getElementById("total-de-personas")) {
-    document.getElementById("total-de-personas").remove();
+  if ($("#total-de-personas")) {
+    $("#total-de-personas").remove();
   }
-  const totalPersonas = document.createElement('h6');
-  totalPersonas.setAttribute('id','total-de-personas')
-  totalPersonas.innerText = `Total de personas: ${personas.length}`
-  document.getElementById('col-personas').appendChild(totalPersonas);
-
-  
+  const totalPersonas = document.createElement("h6");
+  totalPersonas.setAttribute("id", "total-de-personas");
+  totalPersonas.innerText = `Total de personas: ${personas.length}`;
+  $("#col-personas").append(totalPersonas);
 }
 
 //Obtiene el mayor de edad de las personas
@@ -148,23 +145,21 @@ function calcularPromedioEdades(personas) {
 }
 
 // Genera una alerta de bootsrap con un mensaje de error
-function crearAlerta(mensaje,exito=false){
+function crearAlerta(mensaje, exito = false) {
+  const alerta = $("#alertaError");
 
-  const alerta = document.getElementById('alertaError');
-
-  if(exito){
-    alerta.setAttribute('class','alert alert-success alert-dismissible  show')
-  }else{
-    alerta.setAttribute('class','alert alert-danger alert-dismissible  show')
+  if (exito) {
+    alerta.attr("class", "alert alert-success alert-dismissible  show");
+  } else {
+    alerta.attr("class", "alert alert-danger alert-dismissible  show");
   }
-  alerta.innerHTML = mensaje;
-  alerta.style.display='block';
+  alerta.html(mensaje);
+  alerta.css('display','block');
 
-  setTimeout(()=>{alerta.style.display='none'},4000);
-
-
+  setTimeout(() => {
+    alerta.css('display','none') ;
+  }, 4000);
 }
-
 
 //Una persona se considera mayor de edad si tiene 18 o mas
 function calcularPersonasMayores(personas) {
@@ -193,15 +188,27 @@ function ordenarPersonasAlfabetico(personas) {
   });
 }
 
-
 //Cargar datos dummy
-localStorage.setItem('PersonaDummy1', JSON.stringify(new Persona("Sebastian","Ramirez",23,"M")));
-localStorage.setItem('PersonaDummy2', JSON.stringify(new Persona("Juana","Perez",43,"F")));
-localStorage.setItem('PersonaDummy3', JSON.stringify(new Persona("Enrique","Ramirez",12,"O")));
+localStorage.setItem(
+  "PersonaDummy1",
+  JSON.stringify(new Persona("Sebastian", "Ramirez", 23, "M"))
+);
+localStorage.setItem(
+  "PersonaDummy2",
+  JSON.stringify(new Persona("Juana", "Perez", 43, "F"))
+);
+localStorage.setItem(
+  "PersonaDummy3",
+  JSON.stringify(new Persona("Enrique", "Ramirez", 12, "O"))
+);
 const registroCivil = new RegistroCivil();
-registroCivil.addPersona(JSON.parse(localStorage.getItem('PersonaDummy1')),JSON.parse(localStorage.getItem('PersonaDummy2')),JSON.parse(localStorage.getItem('PersonaDummy3')))
-mostrarPersonas(registroCivil.personas)
+registroCivil.addPersona(
+  JSON.parse(localStorage.getItem("PersonaDummy1")),
+  JSON.parse(localStorage.getItem("PersonaDummy2")),
+  JSON.parse(localStorage.getItem("PersonaDummy3"))
+);
 
+mostrarPersonas(registroCivil.personas);
 
 //Obtenemos botones/form para setearles eventos
 let botonMostrarResultado = document.getElementById("btn-mostrar-resultado");
@@ -273,9 +280,3 @@ botonMenorAmayor.onclick = () =>
   );
 
 
-// crearElemento(`Total de personas ${personas.length}`, "span", "div-metricas");
-// crearElemento(
-//   `Mayor de todos ${obtenerMayor(personas)} `,
-//   "span",
-//   "div-metricas"
-// );

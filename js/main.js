@@ -189,26 +189,32 @@ function ordenarPersonasAlfabetico(personas) {
 }
 
 //Cargar datos dummy
-localStorage.setItem(
-  "PersonaDummy1",
-  JSON.stringify(new Persona("Sebastian", "Ramirez", 23, "M"))
-);
-localStorage.setItem(
-  "PersonaDummy2",
-  JSON.stringify(new Persona("Juana", "Perez", 43, "F"))
-);
-localStorage.setItem(
-  "PersonaDummy3",
-  JSON.stringify(new Persona("Enrique", "Ramirez", 12, "O"))
-);
+// localStorage.setItem(
+//   "PersonaDummy1",
+//   JSON.stringify(new Persona("Sebastian", "Ramirez", 23, "M"))
+// );
+// localStorage.setItem(
+//   "PersonaDummy2",
+//   JSON.stringify(new Persona("Juana", "Perez", 43, "F"))
+// );
+// localStorage.setItem(
+//   "PersonaDummy3",
+//   JSON.stringify(new Persona("Enrique", "Ramirez", 12, "O"))
+// );
 const registroCivil = new RegistroCivil();
-registroCivil.addPersona(
-  JSON.parse(localStorage.getItem("PersonaDummy1")),
-  JSON.parse(localStorage.getItem("PersonaDummy2")),
-  JSON.parse(localStorage.getItem("PersonaDummy3"))
-);
+// registroCivil.addPersona(
+//   JSON.parse(localStorage.getItem("PersonaDummy1")),
+//   JSON.parse(localStorage.getItem("PersonaDummy2")),
+//   JSON.parse(localStorage.getItem("PersonaDummy3"))
+// );
 
-mostrarPersonas(registroCivil.personas);
+$("#btn-mostrar-ajax").click(()=>{
+  $.getJSON('../data/personas.json',function (respuesta) {
+    let personas = respuesta;
+    personas.forEach((persona)=> registroCivil.addPersona(new Persona(persona.nombre,persona.apellido,persona.edad,persona.sexo)))
+    $("#btn-mostrar-ajax").fadeOut()
+  })
+})
 
 //Obtenemos botones/form para setearles eventos
 let botonMostrarResultado = document.getElementById("btn-mostrar-resultado");

@@ -15,7 +15,7 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand" href="#">
         <img
           src="assets/icono-urugya.jpg"
@@ -43,9 +43,10 @@
       </button>
     </div>
 
-    <div class="jumbotron">
+    <div class="container-fluid jumbotron">
+
       <div class="row">
-        <div class="col-2">
+        <div class="col col-sm-3">
           <h3>Formulario</h3>
           <form id="form-registrar-persona">
             <label for="input-nombre">Nombre</label>
@@ -84,22 +85,8 @@
               placeholder="21"
             />
             <br />
-            <button type="submit" class="btn btn-primary">Registrar</button>
-            <button
-              id="btn-mostrar-resultado"
-              type="button"
-              class="btn btn-primary"
-            >
-              Mostrar Personas
-            </button>
-            <br>
-            <br>
-            <button
-            id="btn-mostrar-ajax"
-            type="button"
-            class="btn btn-primary"
-          >
-            Cargar ajax
+            <button type="submit" class="btn btn-dark">Registrar</button>
+
           </button>
           </form>
         </div>
@@ -113,6 +100,7 @@
                 <th scope="col">Apellido</th>
                 <th scope="col">Edad</th>
                 <th scope="col">Sexo</th>
+                <th scope="col" id="borrar-persona"></th>
               </tr>
             </thead>
           </table>
@@ -120,57 +108,69 @@
       </div>
     </div>
     <div class="jumbotron" id="jumbotron-metricas">
+      
       <h3>Obtener Metricas</h3>
-      <button id="btn-metricas-mayores" type="button" class="btn btn-primary">
+      <button id="btn-metricas-mayores" type="button" class="btn btn-dark">
         Mayores de Edad
       </button>
-      <button id="btn-metricas-menores" type="button" class="btn btn-primary">
+      <button id="btn-metricas-menores" type="button" class="btn btn-dark">
         Menores de Edad
       </button>
       <button
         id="btn-metricas-mayor-a-menor"
         type="button"
-        class="btn btn-primary"
+        class="btn btn-dark"
       >
         Ordenadas por Edad(mayor a menor)
       </button>
       <button
         id="btn-metricas-menor-a-mayor"
         type="button"
-        class="btn btn-primary"
+        class="btn btn-dark"
       >
         Ordenadas por Edad(menor a mayor)
       </button>
       <button
         id="btn-metricas-alfabeticamente"
         type="button"
-        class="btn btn-primary"
+        class="btn btn-dark"
       >
         Ordenadas Alfabeticamente
       </button>
-      <button id="btn-metricas-sexo-m" type="button" class="btn btn-primary">
+      <button id="btn-metricas-sexo-m" type="button" class="btn btn-dark">
         Ordenadas por Sexo (M)
       </button>
-      <button id="btn-metricas-sexo-f" type="button" class="btn btn-primary">
+      <button id="btn-metricas-sexo-f" type="button" class="btn btn-dark">
         Ordenadas por Sexo (F)
       </button>
-      <button id="btn-metricas-sexo-o" type="button" class="btn btn-primary">
+      <button id="btn-metricas-sexo-o" type="button" class="btn btn-dark">
         Ordenadas por Sexo (O)
       </button>
+
     </div>
+
+<!-- Modal -->
+<div class="modal" id="exampleModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar</h5>
+      </div>
+      <div class="modal-body">
+        <p>Una vez borrada la persona tendras que volver a registrarla.¿Estas Seguro?</p>
+      </div>
+      <div class="modal-footer" style="margin: auto;">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id='eliminar-modal'>Si</button>
+        <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   </body>
 </html>

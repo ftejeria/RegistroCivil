@@ -27,32 +27,32 @@ class RegistroCivil {
     const apellido = $("#input-apellido").val();
 
     if (!nombreValido(nombre)) {
-      crearAlerta(
+      crearAlertaError(
         "Porfavor ingrese un nombre valido, mayor a tres caracteres y que solo tenga carateres"
       );
       return false;
     }
     if (!edadValida(edad)) {
-      crearAlerta(
+      crearAlertaError(
         "Porfavor ingrese una edad valida, mayor a 0 caracteres y numerica"
       );
       return false;
     }
     if (!sexoValido(sexo)) {
-      crearAlerta(
+      crearAlertaError(
         "Porfavor ingrese un sexo valido, Masculino, Femenino o Otro"
       );
       return false;
     }
     if (!nombreValido(apellido)) {
-      crearAlerta(
+      crearAlertaError(
         "Porfavor ingrese un apellido valido, mayor a tres caracteres y que solo tenga carateres"
       );
       return false;
     }
 
     this.personas.push(new Persona(nombre, apellido, parseInt(edad), sexo));
-    crearAlerta(
+    crearAlertaError(
       `Felicidades usted a registrado a la siguiente persona con exito:\n  Nombre: ${nombre}\n Apellido: ${apellido} \n  Edad: ${edad}\n  Sexo: ${sexo} `,
       true
     );
@@ -83,10 +83,6 @@ function mostrarPersonas(personas, mensajeAlerta) {
   if ($("#tbody-personas")) {
     $("#tbody-personas").remove();
   }
-  if (personas.length <= 0) {
-    crearAlerta(mensajeAlerta);
-    return false;
-  }
 
   const tbody = document.createElement("tbody");
   tbody.setAttribute("id", "tbody-personas");
@@ -103,12 +99,22 @@ function mostrarPersonas(personas, mensajeAlerta) {
     tdEdad.innerHTML = persona.edad;
     let tdSexo = document.createElement("td");
     tdSexo.innerHTML = persona.sexo;
+    let borrarButton = document.createElement("button");
+    borrarButton.setAttribute("class", "btn btn-danger borrar-boton");
+    borrarButton.setAttribute("id", persona.dni);
+    borrarButton.setAttribute("onClick", `borrarPersona(this.id)`);
+    borrarButton.setAttribute("data-bs-toggle", "modal");
+    borrarButton.setAttribute("data-bs-target", "#exampleModal");
+
+    borrarButton.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/> <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>';
 
     tr.appendChild(thDni);
     tr.appendChild(tdNombre);
     tr.appendChild(tdApellido);
     tr.appendChild(tdEdad);
     tr.appendChild(tdSexo);
+    tr.appendChild(borrarButton);
     tbody.appendChild(tr);
   });
   $("#tabla-personas").append(tbody);
@@ -120,6 +126,11 @@ function mostrarPersonas(personas, mensajeAlerta) {
   totalPersonas.setAttribute("id", "total-de-personas");
   totalPersonas.innerText = `Total de personas: ${personas.length}`;
   $("#col-personas").append(totalPersonas);
+
+  if (personas.length <= 0) {
+    crearAlertaError(mensajeAlerta);
+    return false;
+  }
 }
 
 //Obtiene el mayor de edad de las personas
@@ -145,7 +156,7 @@ function calcularPromedioEdades(personas) {
 }
 
 // Genera una alerta de bootsrap con un mensaje de error
-function crearAlerta(mensaje, exito = false) {
+function crearAlertaError(mensaje, exito = false) {
   const alerta = $("#alertaError");
 
   if (exito) {
@@ -154,10 +165,10 @@ function crearAlerta(mensaje, exito = false) {
     alerta.attr("class", "alert alert-danger alert-dismissible  show");
   }
   alerta.html(mensaje);
-  alerta.css('display','block');
+  alerta.fadeIn("slow");
 
   setTimeout(() => {
-    alerta.css('display','none') ;
+    alerta.fadeOut("slow");
   }, 4000);
 }
 
@@ -188,53 +199,38 @@ function ordenarPersonasAlfabetico(personas) {
   });
 }
 
-//Cargar datos dummy
-// localStorage.setItem(
-//   "PersonaDummy1",
-//   JSON.stringify(new Persona("Sebastian", "Ramirez", 23, "M"))
-// );
-// localStorage.setItem(
-//   "PersonaDummy2",
-//   JSON.stringify(new Persona("Juana", "Perez", 43, "F"))
-// );
-// localStorage.setItem(
-//   "PersonaDummy3",
-//   JSON.stringify(new Persona("Enrique", "Ramirez", 12, "O"))
-// );
 const registroCivil = new RegistroCivil();
-// registroCivil.addPersona(
-//   JSON.parse(localStorage.getItem("PersonaDummy1")),
-//   JSON.parse(localStorage.getItem("PersonaDummy2")),
-//   JSON.parse(localStorage.getItem("PersonaDummy3"))
-// );
 
-$("#btn-mostrar-ajax").click(()=>{
-  $.getJSON('../data/personas.json',function (respuesta) {
-    let personas = respuesta;
-    personas.forEach((persona)=> registroCivil.addPersona(new Persona(persona.nombre,persona.apellido,persona.edad,persona.sexo)))
-    $("#btn-mostrar-ajax").fadeOut()
-  })
-})
+$.getJSON("../data/personas.json", function (respuesta) {
+  let personas = respuesta;
+  personas.forEach((persona) =>
+    registroCivil.addPersona(
+      new Persona(persona.nombre, persona.apellido, persona.edad, persona.sexo)
+    )
+  );
+  mostrarPersonas(registroCivil.personas)
+});
+
 
 //Obtenemos botones/form para setearles eventos
-let botonMostrarResultado = document.getElementById("btn-mostrar-resultado");
 let formularioRegistro = document.getElementById("form-registrar-persona");
 let botonMayores = document.getElementById("btn-metricas-mayores");
 let botonMenores = document.getElementById("btn-metricas-menores");
 let botonMayorAmenor = document.getElementById("btn-metricas-mayor-a-menor");
 let botonMenorAmayor = document.getElementById("btn-metricas-menor-a-mayor");
-let botonAlfabeticamente = document.getElementById("btn-metricas-alfabeticamente");
+let botonAlfabeticamente = document.getElementById(
+  "btn-metricas-alfabeticamente"
+);
 let botonSexoM = document.getElementById("btn-metricas-sexo-m");
 let botonSexoF = document.getElementById("btn-metricas-sexo-f");
 let botonSexoO = document.getElementById("btn-metricas-sexo-o");
-
+let eliminarModal = document.getElementById("eliminar-modal");
 //Generamos los siguientes eventos a los botones/form
-formularioRegistro.onsubmit = (e) => registroCivil.ingresarPersonas(e);
-botonMostrarResultado.onclick = () =>
-  mostrarPersonas(
-    registroCivil.personas,
-    "Porfavor ingrese personas al sistema"
-  );
+formularioRegistro.onsubmit = (e) => {
+  registroCivil.ingresarPersonas(e);
+  mostrarPersonas(registroCivil.personas);
+};
+
 botonMayores.onclick = () =>
   mostrarPersonas(
     calcularPersonasMayores(registroCivil.personas),
@@ -261,28 +257,39 @@ botonMenorAmayor.onclick = () =>
     "Porfavor ingrese personas al sistema"
   );
 
-  botonAlfabeticamente.onclick = () =>
+botonAlfabeticamente.onclick = () =>
   mostrarPersonas(
     ordenarPersonasAlfabetico(registroCivil.personas),
     "Porfavor ingrese personas al sistema"
   );
 
-  botonSexoM.onclick = () =>
+botonSexoM.onclick = () =>
   mostrarPersonas(
-    filtrarPorSexo(registroCivil.personas,"M"),
+    filtrarPorSexo(registroCivil.personas, "M"),
     "Porfavor ingrese personas al sistema"
   );
 
-  botonSexoF.onclick = () =>
+botonSexoF.onclick = () =>
   mostrarPersonas(
-    filtrarPorSexo(registroCivil.personas,"F"),
+    filtrarPorSexo(registroCivil.personas, "F"),
     "Porfavor ingrese personas al sistema"
   );
 
-  botonSexoO.onclick = () =>
+botonSexoO.onclick = () =>
   mostrarPersonas(
-    filtrarPorSexo(registroCivil.personas,"O"),
+    filtrarPorSexo(registroCivil.personas, "O"),
     "Porfavor ingrese personas al sistema"
   );
 
+//Borrar la persona del sistema en base a su dni si acepta el modal
+function borrarPersona(dni, personas = registroCivil.personas) {
+  eliminarModal.onclick = () => {
+    personas.forEach((persona, index) => {
+      if (persona.dni == parseInt(dni)) {
+        personas.splice(index, 1);
+      }
+    });
 
+    mostrarPersonas(personas, "No hay personas en el sistema");
+  };
+}

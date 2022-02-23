@@ -1,5 +1,11 @@
 [
   { "nombre": "Sebastian", "apellido": "Ramirez", "edad": 23, "sexo": "M" },
   { "nombre": "Juana", "apellido": "Perez", "edad": 43, "sexo": "F" },
+  { "nombre": "Enrique", "apellido": "Ramirez", "edad": 12, "sexo": "O" },
+  { "nombre": "Sebastian", "apellido": "Ramirez", "edad": 23, "sexo": "M" },
+  { "nombre": "Juana", "apellido": "Perez", "edad": 43, "sexo": "F" },
+  { "nombre": "Enrique", "apellido": "Ramirez", "edad": 12, "sexo": "O" },
+  { "nombre": "Sebastian", "apellido": "Ramirez", "edad": 23, "sexo": "M" },
+  { "nombre": "Juana", "apellido": "Perez", "edad": 43, "sexo": "F" },
   { "nombre": "Enrique", "apellido": "Ramirez", "edad": 12, "sexo": "O" }
 ]

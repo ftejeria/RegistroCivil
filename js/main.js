@@ -88,6 +88,8 @@ function mostrarPersonas(personas, mensajeAlerta) {
   tbody.setAttribute("id", "tbody-personas");
   personas.forEach((persona) => {
     let tr = document.createElement("tr");
+    tr.setAttribute('id', persona.dni);
+
     let thDni = document.createElement("th");
     thDni.setAttribute("scope", "row");
     thDni.innerHTML = persona.dni;
@@ -225,6 +227,7 @@ let botonSexoM = document.getElementById("btn-metricas-sexo-m");
 let botonSexoF = document.getElementById("btn-metricas-sexo-f");
 let botonSexoO = document.getElementById("btn-metricas-sexo-o");
 let eliminarModal = document.getElementById("eliminar-modal");
+let filtro = document.getElementById("myFilter");
 //Generamos los siguientes eventos a los botones/form
 formularioRegistro.onsubmit = (e) => {
   registroCivil.ingresarPersonas(e);
@@ -281,8 +284,28 @@ botonSexoO.onclick = () =>
     "Porfavor ingrese personas al sistema"
   );
 
+filtro.onkeyup = () =>{
+
+  registroCivil.personas.forEach((persona) =>{
+    if(persona.dni.toString().indexOf(filtro.value)>-1){
+      document.getElementById(persona.dni).style.display = ""
+    }else{
+      document.getElementById(persona.dni).style.display = "none"
+    }
+  })
+}
+
 //Borrar la persona del sistema en base a su dni si acepta el modal
 function borrarPersona(dni, personas = registroCivil.personas) {
+  
+  personas.forEach((persona, index) => {
+    if (persona.dni == parseInt(dni)) {
+      var modalValue = document.getElementById("modal-value")
+      modalValue.innerHTML = `Una vez borrada la persona tendras que volver a registrarla.¿Estas Seguro que quiere borrar a ${persona.nombre} con dni: ${persona.dni}?`;
+    }
+  });
+
+
   eliminarModal.onclick = () => {
     personas.forEach((persona, index) => {
       if (persona.dni == parseInt(dni)) {

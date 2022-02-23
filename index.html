@@ -91,6 +91,8 @@
           </form>
         </div>
         <div class="col" id="col-personas">
+          <span>Filtro: </span>
+          <input type="text" id="myFilter"  placeholder="dni" title="Busque por atributos">
           <h3>Personas</h3>
           <table class="table" id="tabla-personas">
             <thead>
@@ -157,7 +159,7 @@
         <h5 class="modal-title">Eliminar</h5>
       </div>
       <div class="modal-body">
-        <p>Una vez borrada la persona tendras que volver a registrarla.¿Estas Seguro?</p>
+        <p id="modal-value"></p>
       </div>
       <div class="modal-footer" style="margin: auto;">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id='eliminar-modal'>Si</button>

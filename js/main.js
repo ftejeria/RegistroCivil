@@ -203,7 +203,7 @@ function ordenarPersonasAlfabetico(personas) {
 
 const registroCivil = new RegistroCivil();
 
-$.getJSON("../data/personas.json", function (respuesta) {
+$.getJSON("./data/personas.json", function (respuesta) {
   let personas = respuesta;
   personas.forEach((persona) =>
     registroCivil.addPersona(
